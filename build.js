@@ -1,10 +1,11 @@
-const esbuild = require('esbuild');
-const fs = require('fs');
-const path = require('path');
+// build.js
+import esbuild from 'esbuild';
+import fs from 'fs';
+import path from 'path';
 
 // Function to clean the dist directory
 const cleanDist = () => {
-  const distPath = path.resolve(__dirname, 'dist');
+  const distPath = path.resolve('dist');
   if (fs.existsSync(distPath)) {
     fs.rmSync(distPath, { recursive: true, force: true });
     console.log('Cleaned dist directory.');
@@ -17,15 +18,18 @@ cleanDist();
 // Run the esbuild bundling process
 esbuild
   .build({
-    entryPoints: ['src/main.js'], // The entry file containing your CLI logic
-    bundle: true, // Bundle dependencies into a single file
-    platform: 'node', // Targeting Node.js environment
-    outfile: 'dist/local-pack.js', // Output file for the bundled code
-    minify: true, // Minify the output for a smaller file size
-    banner: { js: '#!/usr/bin/env node' }, // Add shebang for CLI execution
+    entryPoints: ['src/main.js'],
+    bundle: true,
+    platform: 'node',
+    format: 'esm', // Output as an ES module
+    outfile: 'dist/local-pack.js',
+    minify: true,
+    external: ['chalk'], // Exclude chalk from bundling
+    banner: { js: '#!/usr/bin/env node' },
   })
   .then(() => {
-    console.log('Build successful!');
+    fs.chmodSync('dist/local-pack.js', '755');
+    console.log('Build successful and executable permissions set!');
   })
   .catch((error) => {
     console.error('Build failed:', error);

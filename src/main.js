@@ -1,6 +1,7 @@
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+import fs from 'fs';
+import path from 'path';
+import { execSync } from 'child_process';
+import log from './logger.js';
 
 // Parse CLI arguments
 const [, , consumingAppPath, flag] = process.argv;
@@ -20,28 +21,28 @@ const writeJson = (filePath, data) =>
 
 // Function: Clean
 const clean = () => {
-  console.log('Running clean process...');
+  log.info('Running clean process...');
   const packageJson = readJson(packageJsonPath);
 
   // Reset version
   const originalVersion = packageJson.version.split('-pack.')[0];
   packageJson.version = originalVersion;
   writeJson(packageJsonPath, packageJson);
-  console.log(`Reverted version to ${originalVersion}`);
+  log.success(`Reverted version to ${originalVersion}`);
 
   // Reset dependency
   const appPackageJson = readJson(consumingAppPackageJsonPath);
   if (appPackageJson.dependencies[packageJson.name]) {
     appPackageJson.dependencies[packageJson.name] = originalVersion;
     writeJson(consumingAppPackageJsonPath, appPackageJson);
-    console.log(
+    log.success(
       `Reset ${packageJson.name} to version ${originalVersion} in consuming app`
     );
   }
 
   // Delete .tgz files
   deleteTgzFiles();
-  console.log('Clean process complete.');
+  log.info('Clean process complete.');
 };
 
 // Function: Update Version
@@ -52,7 +53,7 @@ const updateVersion = () => {
     suffix ? parseInt(suffix) + 1 : 0
   }`;
   writeJson(packageJsonPath, packageJson);
-  console.log(`Updated version to ${packageJson.version}`);
+  log.success(`Updated version to ${packageJson.version}`);
   return packageJson.version;
 };
 
@@ -62,26 +63,26 @@ const deleteTgzFiles = () => {
     .filter((file) => file.endsWith('.tgz'))
     .forEach((file) => {
       fs.unlinkSync(path.resolve(file));
-      console.log(`Deleted package file: ${file}`);
+      log.info(`Deleted package file: ${file}`);
     });
 };
 
 // Function: Build Package
 const buildPackage = () => {
-  console.log('Running build command...');
+  log.info('Running build command...');
   execSync('npm run build', { stdio: 'inherit' });
-  console.log('Build complete.');
+  log.success('Build complete.');
 };
 
 // Function: Create .tgz Package
 const createPackage = () => {
-  console.log('Packing new version...');
+  log.info('Packing new version...');
   execSync('npm pack', { stdio: 'inherit' });
   const tgzFile = fs
     .readdirSync(process.cwd())
     .find((file) => file.endsWith('.tgz'));
   if (!tgzFile) throw new Error('Error: No .tgz file created.');
-  console.log(`Created package: ${tgzFile}`);
+  log.success(`Created package: ${tgzFile}`);
   return tgzFile;
 };
 
@@ -93,7 +94,7 @@ const updateConsumingApp = (tgzFile) => {
     tgzFile
   )}`;
   writeJson(consumingAppPackageJsonPath, appPackageJson);
-  console.log(
+  log.success(
     `Updated consuming app to use local package path: file:${path.resolve(
       tgzFile
     )}`
@@ -102,15 +103,15 @@ const updateConsumingApp = (tgzFile) => {
 
 // Function: Install Package in Consuming App
 const installPackage = () => {
-  console.log('Installing updated package in the consuming app...');
+  log.info('Installing updated package in the consuming app...');
   execSync('npm install', { cwd: consumingAppPath, stdio: 'inherit' });
-  console.log('Installation complete.');
+  log.success('Installation complete.');
 };
 
 // Execution Flow
 const main = () => {
   if (!consumingAppPath) {
-    console.error('Error: Please provide the full path to the consuming app.');
+    log.error('Error: Please provide the full path to the consuming app.');
     process.exit(1);
   }
 
@@ -124,12 +125,12 @@ const main = () => {
       const tgzFile = createPackage();
       updateConsumingApp(tgzFile);
       installPackage();
-      console.log(
+      log.success(
         `Successfully packed and installed version ${newVersion} in ${consumingAppPath}`
       );
     }
   } catch (error) {
-    console.error('An error occurred:', error.message);
+    log.error(`An error occurred: ${error.message}`);
     process.exit(1);
   }
 };
