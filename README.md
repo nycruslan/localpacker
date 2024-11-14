@@ -1,15 +1,15 @@
-## Quick Start Guide for `local-pack`
+## Quick Start Guide for `localpacker`
 
-`local-pack` is a CLI tool that simplifies packaging and installing local dependencies in your project.
+`localpacker` is a CLI tool that simplifies packaging and installing local dependencies in your project.
 
 ### Installation
 
-You can install `local-pack` either globally or locally in your project:
+You can install `localpacker` either globally or locally in your project:
 
 1. **Global Installation** (recommended for system-wide use):
 
    ```bash
-   npm install -g local-pack
+   npm install -g localpacker
    ```
 
    This allows you to use the `localpack` command in any project.
@@ -17,7 +17,7 @@ You can install `local-pack` either globally or locally in your project:
 2. **Local Installation** (specific to a single project):
 
    ```bash
-   npm install local-pack --save-dev
+   npm install localpacker --save-dev
    ```
 
    Then, run the command with `npx`:
@@ -44,7 +44,7 @@ localpack /path/to/consuming-project
 
   This command will:
 
-  - Update the package version in `local-pack`.
+  - Update the package version in `localpacker`.
   - Build and create a `.tgz` package file.
   - Update the dependency in the target project to use the local `.tgz` file.
   - Install the updated dependency in the target project.
@@ -57,7 +57,7 @@ localpack /path/to/consuming-project
 
   This command will:
 
-  - Revert the version change in `local-pack`.
+  - Revert the version change in `localpacker`.
   - Remove `.tgz` files generated during packaging.
   - Restore the original dependency version in the target project.
 
@@ -74,4 +74,4 @@ localpack /path/to/consuming-project
    localpack /Users/username/my-consuming-app --clean
    ```
 
-And that’s it! `local-pack` is ready to help you manage your local dependencies effortlessly.
+And that’s it! `localpacker` is ready to help you manage your local dependencies effortlessly.

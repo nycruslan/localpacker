@@ -1,11 +1,11 @@
 {
-  "name": "local-pack",
+  "name": "localpacker",
   "version": "1.0.0-alpha.1",
   "type": "module",
   "description": "A CLI tool to package and install local dependencies.",
-  "main": "dist/local-pack.js",
+  "main": "dist/localpacker.js",
   "bin": {
-    "localpack": "dist/local-pack.js"
+    "localpack": "dist/localpacker.js"
   },
   "files": [
     "dist/",
@@ -35,11 +35,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nycruslan/local-pack.git"
+    "url": "git+https://github.com/nycruslan/localpacker.git"
   },
   "bugs": {
-    "url": "https://github.com/nycruslan/local-pack/issues"
+    "url": "https://github.com/nycruslan/localpacker/issues"
   },
-  "homepage": "https://github.com/nycruslan/local-pack#readme",
+  "homepage": "https://github.com/nycruslan/localpacker#readme",
   "author": "Ruslan Shulga nycruslan@gmail.com"
 }

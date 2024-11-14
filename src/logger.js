@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 
-const prefix = chalk.blue('[localpack]');
+const prefix = chalk.blue('[localpacker]');
 
 const log = {
   info: (message) => console.log(`${prefix} ${chalk.green(message)}`),
