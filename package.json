@@ -1,0 +1,16 @@
+{
+  "name": "local-pack",
+  "version": "1.0.0",
+  "description": "A CLI tool to package and install local dependencies.",
+  "main": "dist/local-pack.js",
+  "bin": {
+    "localpack": "dist/local-pack.js"
+  },
+  "scripts": {
+    "build": "node build.js"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.24.0"
+  }
+}
