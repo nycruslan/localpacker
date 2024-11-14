@@ -1,20 +1,45 @@
 {
   "name": "local-pack",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha.1",
   "type": "module",
   "description": "A CLI tool to package and install local dependencies.",
   "main": "dist/local-pack.js",
   "bin": {
-    "localpack": "dist/local-pack.js"
+    "localpack": "./dist/local-pack.js"
   },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
-    "build": "node build.js"
+    "build": "node build.js",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run build"
   },
   "license": "MIT",
+  "engines": {
+    "node": ">=14"
+  },
+  "keywords": [
+    "CLI",
+    "local dependencies",
+    "npm pack",
+    "package management"
+  ],
   "devDependencies": {
     "esbuild": "^0.24.0"
   },
   "dependencies": {
     "chalk": "^5.3.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/local-pack.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/local-pack/issues"
+  },
+  "homepage": "https://github.com/your-username/local-pack#readme",
+  "author": "Ruslan Shulga nycruslan@gmail.com"
 }

@@ -12,6 +12,21 @@ const cleanDist = () => {
   }
 };
 
+// Function to copy necessary files to the dist directory
+const copyFiles = () => {
+  const filesToCopy = ['package.json', 'README.md', 'LICENSE'];
+  filesToCopy.forEach((file) => {
+    const srcPath = path.resolve(file);
+    const destPath = path.resolve('dist', file);
+    if (fs.existsSync(srcPath)) {
+      fs.copyFileSync(srcPath, destPath);
+      console.log(`Copied ${file} to dist directory.`);
+    } else {
+      console.warn(`Warning: ${file} not found.`);
+    }
+  });
+};
+
 // Clean dist directory
 cleanDist();
 
@@ -30,6 +45,7 @@ esbuild
   .then(() => {
     fs.chmodSync('dist/local-pack.js', '755');
     console.log('Build successful and executable permissions set!');
+    copyFiles(); // Copy additional files to dist after build is complete
   })
   .catch((error) => {
     console.error('Build failed:', error);
